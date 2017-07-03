@@ -19,8 +19,6 @@ spring:
 
   datasource:
     url: jdbc:mysql://localhost:3306/perftest
-    username: root
-    password: fossil
 
   jpa:
     hibernate:
