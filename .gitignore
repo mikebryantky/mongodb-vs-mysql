@@ -1,3 +1,5 @@
 
 /mongovsmysql.iml
 .idea/
+/perftest.log
+/target/

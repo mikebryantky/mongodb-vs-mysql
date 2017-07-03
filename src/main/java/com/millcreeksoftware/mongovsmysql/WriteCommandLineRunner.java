@@ -13,9 +13,14 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAmount;
+import java.time.temporal.TemporalUnit;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -96,10 +101,9 @@ public class WriteCommandLineRunner implements CommandLineRunner {
         mongoCustomer.setId(UUID.randomUUID().toString());
         mongoCustomer.setFirstName("AAA");
         mongoCustomer.setLastName(lastName);
-        mongoCustomer.setBirthDate(Date.from(Instant.now().minus(30, ChronoUnit.YEARS)));
-        mongoCustomer.setAge(30);
+        mongoCustomer.setBirthDate(Date.from(Instant.now().minus(Duration.ofDays(365))));
+        mongoCustomer.setAge(1);
         mongoCustomerRepository.save(mongoCustomer);
-
         stopWatch.stop();
         logger.info("MongoDB: Added " + numberRecords + " customers in " + stopWatch.getLastTaskTimeMillis() + " millis.");
     }
@@ -140,8 +144,8 @@ public class WriteCommandLineRunner implements CommandLineRunner {
         mySQLCustomer.setId(UUID.randomUUID().toString());
         mySQLCustomer.setFirstName("AAA");
         mySQLCustomer.setLastName(lastName);
-        mySQLCustomer.setBirthDate(Date.from(Instant.now().minus(30, ChronoUnit.YEARS)));
-        mySQLCustomer.setAge(30);
+        mySQLCustomer.setBirthDate(Date.from(Instant.now().minus(Duration.ofDays(365))));
+        mySQLCustomer.setAge(1);
         mySQLCustomerRepository.save(mySQLCustomer);
 
         stopWatch.stop();
