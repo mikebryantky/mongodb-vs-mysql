@@ -34,6 +34,7 @@ _Example: MongoDB inserted 10,000 random records in 3.1 seconds._
 * Must have MongoDB instance running on localhost.
 * Must hace MySQL isntance running on localhost, and _perftest_ schema created.
 * Set user/pass for MongoDB and/or MySQL as needed.
+* This app uses Java 1.8 and [Spring Boot](https://projects.spring.io/spring-boot/).
 
 
 
