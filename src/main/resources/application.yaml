@@ -1,0 +1,28 @@
+
+
+initialNumberRecords: 1000
+runCount: 4
+lastName: ZZZZ
+
+logging:
+  file: perftest.log
+  level:
+    ROOT: WARN
+    org.springframework: ERROR
+    com.millcreeksoftware: INFO
+
+spring:
+  data:
+    mongodb:
+      database: perftest
+      host: localhost
+      port: 27017
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/perftest
+    username: root
+    password: fossil
+
+  jpa:
+    hibernate:
+      ddl-auto: create
