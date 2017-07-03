@@ -2,7 +2,17 @@
 
 ## Results
 
+### Settings
+* **runCount** = 4 
+* **initialNumberRecords** = 1000
 
+### Runs
+* First run: 1,000 random records were added.
+* Second run: 10,000 random records were added.
+* Third run: 100,000 random records were added.
+* Fourth run: 1,000,000 random records were added.
+
+### Run Times
 |              | 1,000   | 10,000 | 100,000 | 1,000,000 |
 |-------------:|--------:|-------:|--------:|----------:|
 | **MongoDB**  | 0.6     | 3.1    | 33.5    | 414.3     |
@@ -31,13 +41,19 @@ _Example: MongoDB inserted 10,000 random records in 3.1 seconds._
 
 
 ## Usage
+* application.yaml: _initialNumberRecords_ is the, er, initial number of records to add.
+* application.yaml: A loop will run _runCount_ times, each time the value of _initialNumberRecords_ is multipled by 10. 
 * Must have MongoDB instance running on localhost.
-* Must hace MySQL isntance running on localhost, and _perftest_ schema created.
+* Must have MySQL isntance running on localhost, and _perftest_ schema created.
 * Set user/pass for MongoDB and/or MySQL as needed.
-* This app uses Java 1.8 and [Spring Boot](https://projects.spring.io/spring-boot/).
 
 
 
+## Notes
+* There is duplicated code in this repo, which is by design.  Typically, I would 
+  make this code more generic with Interfaces, etc. but the idea here is simplicity in 
+  readability. Futher, this is, at best, v0.0.0.1.
+* This app uses Java 1.8, [Spring Boot](https://projects.spring.io/spring-boot/), and Maven.
 
 
 
