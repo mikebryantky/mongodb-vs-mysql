@@ -35,8 +35,6 @@ public class WriteCommandLineRunner implements CommandLineRunner {
     @Value("${runCount}")
     private long runCount;
 
-    @Value("${lastName}")
-    String lastName;
 
     @Autowired
     private MongoCustomerRepository mongoCustomerRepository;
@@ -53,7 +51,6 @@ public class WriteCommandLineRunner implements CommandLineRunner {
         for(long i=1; i<=runCount; i++) {
             mongoCustomerRepository.deleteAll();
             loadMongoDb(numberRecords);
-            searchMongoDb(numberRecords);
             numberRecords *= 10;
         }
 
@@ -65,26 +62,12 @@ public class WriteCommandLineRunner implements CommandLineRunner {
         }
     }
 
-    private void searchMongoDb(long numberRecords) {
-        // Find to account for any internal caching. The second
-        // lookup is the one that we will time.
-        mongoCustomerRepository.findByLastName(lastName);
-
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-        mongoCustomerRepository.findByLastName(lastName);
-        stopWatch.stop();
-        logger.info("MongoDB: Finding " + lastName + " in "
-                + numberRecords + " took "
-                + stopWatch.getLastTaskTimeMillis() + " " + "millis.");
-    }
-
     private void loadMongoDb(long numberRecords) {
         Fairy fairy = Fairy.create();
 
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        for (long i = 1; i < numberRecords; i++) {
+        for (long i = 1; i <= numberRecords; i++) {
             Person person = fairy.person();
             String uuid = UUID.randomUUID().toString();
 
@@ -96,30 +79,8 @@ public class WriteCommandLineRunner implements CommandLineRunner {
             mongoCustomer.setAge(person.age());
             mongoCustomerRepository.save(mongoCustomer);
         }
-
-        MongoCustomer mongoCustomer = new MongoCustomer();
-        mongoCustomer.setId(UUID.randomUUID().toString());
-        mongoCustomer.setFirstName("AAA");
-        mongoCustomer.setLastName(lastName);
-        mongoCustomer.setBirthDate(Date.from(Instant.now().minus(Duration.ofDays(365))));
-        mongoCustomer.setAge(1);
-        mongoCustomerRepository.save(mongoCustomer);
         stopWatch.stop();
         logger.info("MongoDB: Added " + numberRecords + " customers in " + stopWatch.getLastTaskTimeMillis() + " millis.");
-    }
-
-    private void searchMySQL(long numberRecords) {
-        // Find to account for any internal caching. The second
-        // lookup is the one that we will time.
-        mySQLCustomerRepository.findByLastName(lastName);
-
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-        mySQLCustomerRepository.findByLastName(lastName);
-        stopWatch.stop();
-        logger.info("MySQL: Finding " + lastName + " in "
-                + numberRecords + " took "
-                + stopWatch.getLastTaskTimeMillis() + " " + "millis.");
     }
 
     private void loadMySQL(long numberRecords) {
@@ -127,7 +88,7 @@ public class WriteCommandLineRunner implements CommandLineRunner {
 
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        for (long i = 1; i < numberRecords; i++) {
+        for (long i = 1; i <= numberRecords; i++) {
             Person person = fairy.person();
             String uuid = UUID.randomUUID().toString();
 
@@ -139,15 +100,6 @@ public class WriteCommandLineRunner implements CommandLineRunner {
             mySQLCustomer.setAge(person.age());
             mySQLCustomerRepository.save(mySQLCustomer);
         }
-
-        MySQLCustomer mySQLCustomer = new MySQLCustomer();
-        mySQLCustomer.setId(UUID.randomUUID().toString());
-        mySQLCustomer.setFirstName("AAA");
-        mySQLCustomer.setLastName(lastName);
-        mySQLCustomer.setBirthDate(Date.from(Instant.now().minus(Duration.ofDays(365))));
-        mySQLCustomer.setAge(1);
-        mySQLCustomerRepository.save(mySQLCustomer);
-
         stopWatch.stop();
         logger.info("MySQL: Added " + numberRecords + " customers in " + stopWatch.getLastTaskTimeMillis() + " millis.");
     }
